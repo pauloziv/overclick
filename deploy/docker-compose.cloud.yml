@@ -116,5 +116,6 @@ volumes:
   update-trigger:
 
 networks:
+  # Keep the instance network scoped to this Compose project. A fixed global
+  # name lets a disposable clone join the active instance's network.
   overclick:
-    name: overclick
