@@ -36,7 +36,12 @@ OVERLAY=0
 if [ -f deploy/docker-compose.traefik.yml ] && grep -qE '^OVERCLICK_HOST=.+' deploy/.env 2>/dev/null; then
   export COMPOSE_FILE="$COMPOSE_FILE:deploy/docker-compose.traefik.yml"
   OVERLAY=1
+  export OVERCLICK_TRUSTED_PROXY=1
   echo "==> proxy overlay on (OVERCLICK_HOST set)"
+else
+  # Fail closed for direct/loopback mode. A value in deploy/.env must not be
+  # able to make the app trust caller-supplied forwarding headers.
+  export OVERCLICK_TRUSTED_PROXY=0
 fi
 
 # A previous accidental root-compose deploy used this exact container name.
