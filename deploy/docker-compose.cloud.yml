@@ -42,10 +42,9 @@ services:
       # GHSA-hccf: the pairing endpoint charges guesses to the caller's
       # origin. Only a proxy that APPENDS the peer to x-forwarded-for
       # (Traefik, nginx's $proxy_add_x_forwarded_for, Caddy) can supply a
-      # trustworthy origin. Direct/diagnostic mode defaults to 0; deploy.sh
-      # promotes it to 1 only when the proxy overlay is active and the app
-      # has no host port.
-      OVERCLICK_TRUSTED_PROXY: ${OVERCLICK_TRUSTED_PROXY:-0}
+      # trustworthy origin. Direct/diagnostic mode is always untrusted; only
+      # the proxy overlay may replace this with 1.
+      OVERCLICK_TRUSTED_PROXY: "0"
     volumes:
       - update-trigger:/update-trigger
     # Bound to loopback: the reverse proxy is the only way in from outside.
